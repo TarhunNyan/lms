@@ -1,0 +1,39 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: lms
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_HOST_PORT}/${DB_NAME}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    user: ${DB_MIGRATOR_USER}
+    password: ${DB_MIGRATOR_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+logging:
+  level:
+    liquibase: INFO
+    org.sg01.example.lms: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
