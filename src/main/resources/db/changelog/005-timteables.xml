@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="005-01-create-timetable" author="g.stepanov">
+        <createTable tableName="timetables">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT" defaultValueNumeric="0">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="group_id" type="BIGINT">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="teacher_id" type="BIGINT">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="course_id" type="BIGINT">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="start_date" type="DATE">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="finish_date" type="DATE">
+                <constraints nullable="false" unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="005-02-fk-timetable" author="g.stepanov">
+        <addForeignKeyConstraint baseTableName="timetables"
+                                 baseColumnNames="group_id"
+                                 referencedTableName="student_groups"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_timetables_student_groups"/>
+        <addForeignKeyConstraint baseTableName="timetables"
+                                 baseColumnNames="teacher_id"
+                                 referencedTableName="teachers"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_timetables_teachers"/>
+        <addForeignKeyConstraint baseTableName="timetables"
+                                 baseColumnNames="course_id"
+                                 referencedTableName="courses"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_timetables_courses"/>
+    </changeSet>
+
+</databaseChangeLog>

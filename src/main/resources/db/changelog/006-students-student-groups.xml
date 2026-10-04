@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="006-01-create-students-student-groups" author="g.stepanov">
+        <createTable tableName="students_student_groups">
+            <column name="student_id" type="BIGINT">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="group_id" type="BIGINT">
+                <constraints nullable="false" unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="006-02-pk-students-student-groups" author="g.stepanov">
+        <addPrimaryKey tableName="students_student_groups"
+                       columnNames="student_id, group_id"
+                       constraintName="pk_students_student_groups"/>
+    </changeSet>
+
+    <changeSet id="006-03-fk-students-student-groups" author="g.stepanov">
+        <addForeignKeyConstraint baseTableName="students_student_groups"
+                                 baseColumnNames="student_id"
+                                 referencedTableName="students"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_students_student_groups_student"/>
+        <addForeignKeyConstraint baseTableName="students_student_groups"
+                                 baseColumnNames="group_id"
+                                 referencedTableName="student_groups"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_students_student_groups_group"/>
+    </changeSet>
+
+</databaseChangeLog>
