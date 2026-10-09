@@ -7,18 +7,18 @@ services:
       - lms-network
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      DB_HOST: lms-postgres
-      DB_PORT: ${DB_PORT}
-      DB_NAME: ${POSTGRES_DB}
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: lms-postgres
+      POSTGRES_HOST_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
       DB_MIGRATOR_USER: ${DB_MIGRATOR_USER}
       DB_MIGRATOR_PASSWORD: ${DB_MIGRATOR_PASSWORD}
     depends_on:
       lms-postgres:
         condition: service_healthy
     ports:
-      - "8080:8080"
+      - "127.0.0.1:${APP_PORT:-8080}:8080"
 
   lms-postgres:
     image: postgres:17-alpine
