@@ -18,6 +18,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
     @Column(name = "version", nullable = false)
     private Long version;
 
@@ -34,10 +35,5 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "group_id")
     )
     private List<Group> groups;
-
-    @PrePersist
-    protected void onCreate() {
-        version = 0L;
-    }
 
 }
