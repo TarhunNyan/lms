@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "students")
@@ -28,12 +29,29 @@ public class Student {
     @Column(name = "lastname", nullable = false)
     private String lastname;
 
-    @ManyToMany
-    @JoinTable(
-            name = "students_student_groups",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
-    )
-    private List<Group> groups;
+    @ManyToMany(mappedBy = "studentList", fetch = FetchType.LAZY)
+    private Set<Group> groupList = new HashSet<>();
+
+    public boolean addGroup(Group group) {
+        groupList.add(group);
+        return group.getStudentList().add(this);
+    }
+
+    public boolean removeGroup(Group group) {
+        groupList.remove(group);
+        return group.getStudentList().remove(this);
+    }
+
+    // переопределяем equals так, чтобы он не делал лишних запросов к БД
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Student other)) {
+            return false;
+        }
+        return id != null && id.equals(other.id);
+    }
 
 }

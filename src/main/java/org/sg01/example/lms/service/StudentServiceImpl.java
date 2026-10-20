@@ -4,31 +4,42 @@ import lombok.RequiredArgsConstructor;
 import org.sg01.example.lms.dto.StudentCreateDTO;
 import org.sg01.example.lms.dto.StudentDTO;
 import org.sg01.example.lms.dto.StudentUpdateDTO;
+import org.sg01.example.lms.entity.Group;
 import org.sg01.example.lms.entity.Student;
-import org.sg01.example.lms.exception.ResourceNotFoundException;
+import org.sg01.example.lms.helper.ExceptionHelperService;
 import org.sg01.example.lms.mapper.StudentMapper;
+import org.sg01.example.lms.repository.GroupRepository;
 import org.sg01.example.lms.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
-    final StudentRepository studentRepository;
-    final StudentMapper studentMapper;
+    private final ExceptionHelperService exception;
+    private final StudentRepository studentRepository;
+    private final GroupRepository groupRepository;
+    private final StudentMapper studentMapper;
 
     @Override
+    @Transactional
     public StudentDTO create(StudentCreateDTO createDTO) {
         Student student = new Student();
+
+        Group group = groupRepository
+                .findById(createDTO.getGroupId())
+                .orElseThrow(() -> exception.createExceptionNotFoundGroupById(createDTO.getGroupId()));
+        student.addGroup(group);
         student.setFirstname(createDTO.getFirstname());
         student.setLastname(createDTO.getLastname());
-        student.setGroups(null);
         studentRepository.save(student);
 
-        return studentMapper.toDto(student);
+        return studentMapper.toDTO(student);
     }
 
     @Override
@@ -36,14 +47,18 @@ public class StudentServiceImpl implements StudentService {
     public StudentDTO getById(Long id) {
         Student student = studentRepository
                 .findById(id)
-                .orElseThrow(() -> createExceptionNotFoundStudentById(id));
-        return studentMapper.toDto(student);
+                .orElseThrow(() -> exception.createExceptionNotFoundStudentById(id));
+        return studentMapper.toDTO(student);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<StudentDTO> getAll() {
-        return studentRepository.findAll().stream().map(studentMapper::toDto).toList();
+        return studentRepository
+                .findAll()
+                .stream()
+                .map(studentMapper::toDTO)
+                .toList();
     }
 
     @Override
@@ -51,7 +66,7 @@ public class StudentServiceImpl implements StudentService {
     public StudentDTO update(Long id, StudentUpdateDTO updateDTO) {
         Student student = studentRepository
                 .findById(id)
-                .orElseThrow(() -> createExceptionNotFoundStudentById(id));
+                .orElseThrow(() -> exception.createExceptionNotFoundStudentById(id));
 
         if (updateDTO.getFirstname() != null) {
             student.setFirstname(updateDTO.getFirstname());
@@ -61,19 +76,24 @@ public class StudentServiceImpl implements StudentService {
         }
 
         studentRepository.save(student);
-        return studentMapper.toDto(student);
+        return studentMapper.toDTO(student);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!studentRepository.existsById(id)) {
-            throw createExceptionNotFoundStudentById(id);
+        Student student = studentRepository
+                .findById(id)
+                .orElseThrow(() -> exception.createExceptionNotFoundStudentById(id));
+
+        // TODO: тут N+1
+        for (Group group : student.getGroupList()) {
+            group
+                    .getStudentList()
+                    .remove(student);
         }
-        studentRepository.deleteById(id);
+
+        studentRepository.delete(student);
     }
 
-    private ResourceNotFoundException createExceptionNotFoundStudentById(Long id) {
-        return ResourceNotFoundException.of("student", "id", id);
-    }
 }

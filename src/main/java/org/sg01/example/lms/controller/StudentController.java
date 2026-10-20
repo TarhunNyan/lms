@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentController {
 
-    final StudentService studentService;
+    private final StudentService studentService;
 
     @PostMapping
     public ResponseEntity<StudentDTO> create(@Valid @RequestBody StudentCreateDTO request) {
@@ -44,4 +44,5 @@ public class StudentController {
     public void delete(@PathVariable Long id) {
         studentService.delete(id);
     }
+
 }
