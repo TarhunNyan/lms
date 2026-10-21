@@ -42,6 +42,11 @@ public class Student {
         return group.getStudentList().remove(this);
     }
 
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
     // переопределяем equals так, чтобы он не делал лишних запросов к БД
     @Override
     public boolean equals(Object o) {

@@ -36,6 +36,11 @@ public class Group {
     )
     private Set<Student> studentList = new HashSet<>();
 
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
     // переопределяем equals так, чтобы он не делал лишних запросов к БД
     @Override
     public boolean equals(Object o) {
