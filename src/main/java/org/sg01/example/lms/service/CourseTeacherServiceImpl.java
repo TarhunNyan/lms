@@ -1,11 +1,11 @@
 
 package org.sg01.example.lms.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.sg01.example.lms.dto.CourseDTO;
 import org.sg01.example.lms.dto.TeacherCourseCreateDTO;
 import org.sg01.example.lms.dto.TeacherCourseDeleteDTO;
-import org.sg01.example.lms.dto.TeacherDTO;
 import org.sg01.example.lms.entity.Course;
 import org.sg01.example.lms.entity.Teacher;
 import org.sg01.example.lms.helper.ExceptionHelperService;
@@ -24,6 +24,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
     private final CourseMapper courseMapper;
 
     @Override
+    @Transactional
     public CourseDTO addRelation(TeacherCourseCreateDTO requestDTO) {
         Long courseId = requestDTO.getCourseId();
         Long teacherId = requestDTO.getTeacherId();
@@ -41,6 +42,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
     }
 
     @Override
+    @Transactional
     public void removeRelation(TeacherCourseDeleteDTO requestDTO) {
         Long courseId = requestDTO.getCourseId();
 

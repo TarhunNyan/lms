@@ -1,5 +1,6 @@
 package org.sg01.example.lms.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.sg01.example.lms.dto.StudentDTO;
 import org.sg01.example.lms.dto.StudentGroupCreateDTO;
@@ -25,6 +26,7 @@ public class StudentGroupServiceImpl implements StudentGroupService {
     private final StudentMapper studentMapper;
 
     @Override
+    @Transactional
     public StudentDTO addStudentToGroup(StudentGroupCreateDTO requestDTO) {
         Long groupId = requestDTO.getGroupId();
         Long studentId = requestDTO.getStudentId();
@@ -44,6 +46,7 @@ public class StudentGroupServiceImpl implements StudentGroupService {
     }
 
     @Override
+    @Transactional
     public void removeStudentToGroup(StudentGroupDeleteDTO requestDTO) {
         Long groupId = requestDTO.getGroupId();
         Long studentId = requestDTO.getStudentId();
