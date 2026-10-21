@@ -85,9 +85,9 @@ public class StudentServiceImpl implements StudentService {
                 .orElseThrow(() -> exception.createExceptionNotFoundStudentById(id));
 
         // TODO: тут N+1
-        for (Group group : student.getGroupList()) {
+        for (Group group : student.getGroupCollection()) {
             group
-                    .getStudentList()
+                    .getStudentCollection()
                     .remove(student);
         }
 

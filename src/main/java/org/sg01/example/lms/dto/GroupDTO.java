@@ -17,6 +17,6 @@ public class GroupDTO {
 
     private String groupName;
 
-    private List<Long> studentIdList;
+    private List<Long> studentIdCollection;
 
 }

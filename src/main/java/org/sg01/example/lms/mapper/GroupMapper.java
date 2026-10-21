@@ -18,7 +18,7 @@ public interface GroupMapper {
     GroupDTO toDTO(GroupWithStudentIdDTO dto);
 
     @Mapping(target = "groupId", source = "id")
-    @Mapping(target = "studentIdList", source = "studentList")
+    @Mapping(target = "studentIdCollection", source = "studentCollection")
     GroupDTO toDTO(Group entity);
 
     default Long map(Student student) {
@@ -36,7 +36,7 @@ public interface GroupMapper {
                     );
             if (row.getStudentId() != null) {
                 groupDTO
-                        .getStudentIdList()
+                        .getStudentIdCollection()
                         .add(row.getStudentId());
             }
         }

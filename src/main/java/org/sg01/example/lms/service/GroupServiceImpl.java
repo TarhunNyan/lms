@@ -35,20 +35,20 @@ public class GroupServiceImpl implements GroupService {
         Group group = new Group();
         group.setGroupName(createDTO.getGroupName());
 
-        List<Long> studentIdList = createDTO.getStudentIdList();
+        List<Long> studentIdList = createDTO.getStudentIdCollection();
         if (studentIdList != null && !studentIdList.isEmpty()) {
             Set<Long> studentIdSet = new HashSet<>(studentIdList);
-            Set<Long> foundedIdSet = studentRepository.existsAllByIdList(studentIdSet);
+            Set<Long> foundedIdSet = studentRepository.existsAllByIdCollection(studentIdSet);
             if (studentIdSet.size() != foundedIdSet.size()) {
                 studentIdSet.removeAll(foundedIdSet);
                 throw exception.createExceptionNotFoundStudentListById(studentIdSet);
             }
             // немного магии, не ходим в БД за каждым студентом, а создаем прокси по id
-            Set<Student> studentList = studentIdSet
+            Set<Student> studentCollection = studentIdSet
                     .stream()
                     .map(studentRepository::getReferenceById)
                     .collect(Collectors.toSet());
-            group.setStudentList(studentList);
+            group.setStudentCollection(studentCollection);
         }
         groupRepository.save(group);
 
@@ -83,8 +83,8 @@ public class GroupServiceImpl implements GroupService {
             group.setGroupName(updateDTO.getGroupName());
         }
 
-        if (updateDTO.getStudentIdList() != null) {
-            Set<Long> desiredIds = updateDTO.getStudentIdList();
+        if (updateDTO.getStudentIdCollection() != null) {
+            Set<Long> desiredIds = updateDTO.getStudentIdCollection();
 
             // проверяем что все студенты существуют
             Map<Long, Student> students = studentRepository
@@ -98,7 +98,7 @@ public class GroupServiceImpl implements GroupService {
             }
 
             Set<Long> currentIds = group
-                    .getStudentList()
+                    .getStudentCollection()
                     .stream()
                     .map(Student::getId)
                     .collect(Collectors.toSet());
@@ -106,16 +106,16 @@ public class GroupServiceImpl implements GroupService {
             // проверяем что никто из студентов удаляемых из группы не останется без группы
             Set<Long> removedIds = new HashSet<>(currentIds);
             removedIds.removeAll(desiredIds);
-            if (!removedIds.isEmpty() && !studentRepository.findStudentIdsWithSingleGroup(removedIds).isEmpty()) {
+            if (!removedIds.isEmpty() && !studentRepository.findStudentIdCollectionWithSingleGroup(removedIds).isEmpty()) {
                 throw new StudentNotInGroupException("Cannot update group id=%d: some students would be left without group".formatted(id));
             }
 
             // заменяем коллекцию целиком
             group
-                    .getStudentList()
+                    .getStudentCollection()
                     .clear();
             group
-                    .getStudentList()
+                    .getStudentCollection()
                     .addAll(students.values());
         }
 
@@ -129,18 +129,18 @@ public class GroupServiceImpl implements GroupService {
                 .findById(id)
                 .orElseThrow(() -> exception.createExceptionNotFoundGroupById(id));
         List<Long> studentIds = group
-                .getStudentList()
+                .getStudentCollection()
                 .stream()
                 .map(Student::getId)
                 .toList();
         int countStudentWithOneGroup = studentRepository
-                .findStudentIdsWithSingleGroup(studentIds)
+                .findStudentIdCollectionWithSingleGroup(studentIds)
                 .size();
         if (countStudentWithOneGroup > 0) {
             throw new GroupHasStudentsException("Cannot remove group with id %d. %d students will be left without group".formatted(id, countStudentWithOneGroup));
         }
         group
-                .getStudentList()
+                .getStudentCollection()
                 .clear();
         groupRepository.delete(group);
     }

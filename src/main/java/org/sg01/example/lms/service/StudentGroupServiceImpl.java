@@ -57,10 +57,10 @@ public class StudentGroupServiceImpl implements StudentGroupService {
         Student student = studentRepository
                 .findById(studentId)
                 .orElseThrow(() -> exception.createExceptionNotFoundStudentById(studentId));
-        if (!student.getGroupList().contains(group)) {
+        if (!student.getGroupCollection().contains(group)) {
             throw new StudentNotInGroupException("Student %d is not in group %d".formatted(studentId, groupId));
         }
-        if (student.getGroupList().size() == 1) {
+        if (student.getGroupCollection().size() == 1) {
             throw new LastGroupRemovalException("Cannot remove student %d from the last group %d".formatted(studentId, groupId));
         }
 

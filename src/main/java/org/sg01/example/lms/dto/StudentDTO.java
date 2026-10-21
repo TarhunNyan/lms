@@ -15,6 +15,6 @@ public class StudentDTO {
 
     private String lastname;
 
-    private List<Long> groupIdList;
+    private List<Long> groupIdCollection;
 
 }

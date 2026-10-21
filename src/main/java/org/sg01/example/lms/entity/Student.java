@@ -29,17 +29,17 @@ public class Student {
     @Column(name = "lastname", nullable = false)
     private String lastname;
 
-    @ManyToMany(mappedBy = "studentList", fetch = FetchType.LAZY)
-    private Set<Group> groupList = new HashSet<>();
+    @ManyToMany(mappedBy = "studentCollection", fetch = FetchType.LAZY)
+    private Set<Group> groupCollection = new HashSet<>();
 
     public boolean addGroup(Group group) {
-        groupList.add(group);
-        return group.getStudentList().add(this);
+        groupCollection.add(group);
+        return group.getStudentCollection().add(this);
     }
 
     public boolean removeGroup(Group group) {
-        groupList.remove(group);
-        return group.getStudentList().remove(this);
+        groupCollection.remove(group);
+        return group.getStudentCollection().remove(this);
     }
 
     @Override

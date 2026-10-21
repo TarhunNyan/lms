@@ -34,7 +34,7 @@ public class Group {
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
-    private Set<Student> studentList = new HashSet<>();
+    private Set<Student> studentCollection = new HashSet<>();
 
     @Override
     public int hashCode() {

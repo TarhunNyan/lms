@@ -9,7 +9,7 @@ import org.sg01.example.lms.entity.Student;
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
 
-    @Mapping(target = "groupIdList", source = "groupList")
+    @Mapping(target = "groupIdCollection", source = "groupCollection")
     StudentDTO toDTO(Student entity);
 
     default Long map(Group group) {

@@ -11,6 +11,6 @@ public class GroupUpdateDTO {
 
     private String groupName;
 
-    private Set<Long> studentIdList;
+    private Set<Long> studentIdCollection;
 
 }

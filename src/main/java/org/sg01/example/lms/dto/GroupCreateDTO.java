@@ -13,6 +13,6 @@ public class GroupCreateDTO {
     @NotBlank
     private String groupName;
 
-    private List<Long> studentIdList;
+    private List<Long> studentIdCollection;
 
 }

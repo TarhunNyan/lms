@@ -11,7 +11,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 
     // избегаем N+1, потому что нужны только id студенов, а findAll по умлчанию возвращает прокси, который ходит в БД при запросе id
     // понятия не имею насколько это павильно... можно навернуться если декартово произведение будет огромным
-    @Query("SELECT g.id AS groupId, g.groupName AS groupName, s.id AS studentId FROM Group g LEFT JOIN g.studentList s")
+    @Query("SELECT g.id AS groupId, g.groupName AS groupName, s.id AS studentId FROM Group g LEFT JOIN g.studentCollection s")
     List<GroupWithStudentIdDTO> findAllWithStudentIds();
 
 }
