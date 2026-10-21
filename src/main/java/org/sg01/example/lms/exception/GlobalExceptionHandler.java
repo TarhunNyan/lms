@@ -44,6 +44,11 @@ public class GlobalExceptionHandler {
         return problem(HttpStatus.CONFLICT, "Cannot delete group", ex.getMessage(), null, ex);
     }
 
+    @ExceptionHandler(StudentNotInGroupException.class)
+    public ProblemDetail handleStudentNotInGroupException(StudentNotInGroupException ex) {
+        return problem(HttpStatus.CONFLICT, "Cannot remove student from the last group", ex.getMessage(), null, ex);
+    }
+
     @ExceptionHandler(InvalidDateRangeException.class)
     public ProblemDetail handleInvalidDateRange(InvalidDateRangeException ex) {
         log.warn("Invalid date range: {}", ex.getMessage());

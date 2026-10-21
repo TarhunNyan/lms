@@ -21,6 +21,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
         GROUP BY s.id
         HAVING count(g) = 1
     """)
-    List<Long> findStudentIdsWithSingleGroup(@Param("studentIdList") List<Long> studentIdList);
+    Collection<Long> findStudentIdsWithSingleGroup(@Param("studentIdList") Collection<Long> studentIdList);
 
 }
