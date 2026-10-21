@@ -18,18 +18,15 @@ public class Timetable {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
 
+    @Version
     @Column(name = "version", nullable = false)
     private Long version;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
-    @OneToOne
-    @JoinColumn(name = "teacher_id", nullable = false)
-    private Teacher teacher;
-
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="course_id", nullable = false)
     private Course course;
 
@@ -38,10 +35,5 @@ public class Timetable {
 
     @Column(name = "finish_date", nullable = false)
     private LocalDate finishDate;
-
-    @PrePersist
-    protected void onCreate() {
-        version = 0L;
-    }
 
 }

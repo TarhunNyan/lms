@@ -16,9 +16,6 @@
             <column name="group_id" type="BIGINT">
                 <constraints nullable="false" unique="false"/>
             </column>
-            <column name="teacher_id" type="BIGINT">
-                <constraints nullable="false" unique="false"/>
-            </column>
             <column name="course_id" type="BIGINT">
                 <constraints nullable="false" unique="false"/>
             </column>
@@ -36,12 +33,7 @@
                                  baseColumnNames="group_id"
                                  referencedTableName="student_groups"
                                  referencedColumnNames="id"
-                                 constraintName="fk_timetables_student_groups"/>
-        <addForeignKeyConstraint baseTableName="timetables"
-                                 baseColumnNames="teacher_id"
-                                 referencedTableName="teachers"
-                                 referencedColumnNames="id"
-                                 constraintName="fk_timetables_teachers"/>
+                                 constraintName="fk_timetables_groups"/>
         <addForeignKeyConstraint baseTableName="timetables"
                                  baseColumnNames="course_id"
                                  referencedTableName="courses"

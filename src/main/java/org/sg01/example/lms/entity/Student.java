@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "students")
@@ -18,6 +19,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
     @Column(name = "version", nullable = false)
     private Long version;
 
@@ -27,17 +29,34 @@ public class Student {
     @Column(name = "lastname", nullable = false)
     private String lastname;
 
-    @ManyToMany
-    @JoinTable(
-            name = "students_student_groups",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
-    )
-    private List<Group> groups;
+    @ManyToMany(mappedBy = "studentCollection", fetch = FetchType.LAZY)
+    private Set<Group> groupCollection = new HashSet<>();
 
-    @PrePersist
-    protected void onCreate() {
-        version = 0L;
+    public boolean addGroup(Group group) {
+        groupCollection.add(group);
+        return group.getStudentCollection().add(this);
+    }
+
+    public boolean removeGroup(Group group) {
+        groupCollection.remove(group);
+        return group.getStudentCollection().remove(this);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    // переопределяем equals так, чтобы он не делал лишних запросов к БД
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Student other)) {
+            return false;
+        }
+        return id != null && id.equals(other.id);
     }
 
 }

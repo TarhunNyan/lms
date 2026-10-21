@@ -4,9 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Table(name = "student_groups")
 @Entity
@@ -19,18 +20,37 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
     @Column(name = "version", nullable = false)
     private Long version;
 
     @Column(name = "group_name", nullable = false)
     private String groupName;
 
-    @ManyToMany(mappedBy = "groups")
-    private List<Student> student = new ArrayList<>();
+    @BatchSize(size = 50)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "student_groups_students",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private Set<Student> studentCollection = new HashSet<>();
 
-    @PrePersist
-    protected void onCreate() {
-        version = 0L;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    // переопределяем equals так, чтобы он не делал лишних запросов к БД
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Group other)) {
+            return false;
+        }
+        return id != null && id.equals(other.id);
     }
 
 }
