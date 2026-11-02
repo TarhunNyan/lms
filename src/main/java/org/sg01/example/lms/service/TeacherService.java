@@ -12,8 +12,6 @@ public interface TeacherService {
 
     TeacherDTO getById(Long id);
 
-    List<TeacherDTO> getAll();
-
     Page<TeacherDTO> getAll(Pageable pageable);
 
     TeacherDTO update(Long id, TeacherUpdateDTO requestDTO);

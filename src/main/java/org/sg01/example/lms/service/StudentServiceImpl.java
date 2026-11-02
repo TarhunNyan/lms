@@ -53,16 +53,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<StudentDTO> getAll() {
-        return studentRepository
-                .findAll()
-                .stream()
-                .map(studentMapper::toDTO)
-                .toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Page<StudentDTO> getAll(Pageable pageable) {
         return studentRepository
                 .findAll(pageable)

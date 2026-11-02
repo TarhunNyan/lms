@@ -14,8 +14,6 @@ public interface GroupService {
 
     GroupDTO getById(Long id);
 
-    List<GroupDTO> getAll();
-
     Page<GroupDTO> getAll(Pageable pageable);
 
     GroupDTO update(Long id, GroupUpdateDTO requestDTO);

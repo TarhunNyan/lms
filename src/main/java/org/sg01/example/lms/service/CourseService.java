@@ -14,8 +14,6 @@ public interface CourseService {
 
     CourseDTO getById(Long id);
 
-    List<CourseDTO> getAll();
-
     Page<CourseDTO> getAll(Pageable pageable);
 
     CourseDTO update(Long id, CourseUpdateDTO requestDTO);

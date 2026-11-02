@@ -53,16 +53,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CourseDTO> getAll() {
-        return courseRepository
-                .findAll()
-                .stream()
-                .map(courseMapper::toDTO)
-                .toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Page<CourseDTO> getAll(Pageable pageable) {
         return courseRepository
                 .findAll(pageable)

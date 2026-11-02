@@ -14,8 +14,6 @@ public interface StudentService {
 
     StudentDTO getById(Long id);
 
-    List<StudentDTO> getAll();
-
     Page<StudentDTO> getAll(Pageable pageable);
 
     StudentDTO update(Long id, StudentUpdateDTO requestDTO);

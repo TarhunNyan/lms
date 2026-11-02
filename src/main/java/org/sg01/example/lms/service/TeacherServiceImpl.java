@@ -43,16 +43,6 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<TeacherDTO> getAll() {
-        return teacherRepository
-                .findAll()
-                .stream()
-                .map(teacherMapper::toDTO)
-                .toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Page<TeacherDTO> getAll(Pageable pageable) {
         return teacherRepository
                 .findAll(pageable)

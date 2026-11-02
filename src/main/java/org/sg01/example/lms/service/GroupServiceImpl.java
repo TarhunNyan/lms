@@ -65,14 +65,6 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<GroupDTO> getAll() {
-        List<GroupWithStudentIdDTO> rows = groupRepository.findAllWithStudentIds();
-        System.out.println(rows);
-        return groupMapper.map(rows);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Page<GroupDTO> getAll(Pageable pageable) {
         Page<Group> page = groupRepository.findAll(pageable);
         Set<Long> studentIdCollection = page

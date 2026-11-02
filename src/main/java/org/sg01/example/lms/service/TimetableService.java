@@ -13,8 +13,6 @@ public interface TimetableService {
 
     TimetableDTO getById(Long id);
 
-    List<TimetableDTO> getAll();
-
     Page<TimetableDTO> getAll(Pageable pageable);
 
     TimetableDTO update(Long id, TimetableUpdateDTO requestDTO);

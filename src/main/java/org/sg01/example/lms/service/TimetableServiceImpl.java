@@ -65,16 +65,6 @@ public class TimetableServiceImpl implements TimetableService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<TimetableDTO> getAll() {
-        return timetableRepository
-                .findAll()
-                .stream()
-                .map(timetableMapper::toDTO)
-                .toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Page<TimetableDTO> getAll(Pageable pageable) {
         return timetableRepository
                 .findAll(pageable)
