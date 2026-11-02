@@ -13,6 +13,8 @@ import org.sg01.example.lms.mapper.TimetableMapper;
 import org.sg01.example.lms.repository.CourseRepository;
 import org.sg01.example.lms.repository.GroupRepository;
 import org.sg01.example.lms.repository.TimetableRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,6 +71,14 @@ public class TimetableServiceImpl implements TimetableService {
                 .stream()
                 .map(timetableMapper::toDTO)
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TimetableDTO> getAll(Pageable pageable) {
+        return timetableRepository
+                .findAll(pageable)
+                .map(timetableMapper::toDTO);
     }
 
     @Override
