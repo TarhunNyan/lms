@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.sg01.example.lms.dto.*;
 import org.sg01.example.lms.service.TeacherService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +30,8 @@ public class TeacherController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TeacherDTO>> readAll() {
-        return ResponseEntity.ok(teacherService.getAll());
+    public Page<TeacherDTO> readAll(Pageable pageable) {
+        return teacherService.getAll(pageable);
     }
 
     @PutMapping(path = "/{id}")
