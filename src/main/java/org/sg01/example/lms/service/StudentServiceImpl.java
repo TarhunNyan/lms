@@ -62,6 +62,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<StudentDTO> getAll(Pageable pageable) {
         return studentRepository
                 .findAll(pageable)
