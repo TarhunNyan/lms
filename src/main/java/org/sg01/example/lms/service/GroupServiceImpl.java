@@ -1,10 +1,7 @@
 package org.sg01.example.lms.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sg01.example.lms.dto.GroupCreateDTO;
-import org.sg01.example.lms.dto.GroupDTO;
-import org.sg01.example.lms.dto.GroupUpdateDTO;
-import org.sg01.example.lms.dto.GroupWithStudentIdDTO;
+import org.sg01.example.lms.dto.*;
 import org.sg01.example.lms.entity.Group;
 import org.sg01.example.lms.entity.Student;
 import org.sg01.example.lms.exception.GroupHasStudentsException;
@@ -13,6 +10,8 @@ import org.sg01.example.lms.helper.ExceptionHelperService;
 import org.sg01.example.lms.mapper.GroupMapper;
 import org.sg01.example.lms.repository.GroupRepository;
 import org.sg01.example.lms.repository.StudentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,6 +72,31 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Page<GroupDTO> getAll(Pageable pageable) {
+        Page<Group> page = groupRepository.findAll(pageable);
+        Set<Long> studentIdCollection = page
+                .stream()
+                .map(Group::getId)
+                .collect(Collectors.toSet());
+        Map<Long, List<Long>> studentIdsByGroup = groupRepository
+                .findStudentIdsByGroupIds(studentIdCollection)
+                .stream()
+                .filter(r -> r.getStudentId() != null)
+                .collect(Collectors.groupingBy(
+                        GroupToStudentIdDTO::getGroupId,
+                        Collectors.mapping(GroupToStudentIdDTO::getStudentId, Collectors.toList())
+                ));
+
+        Page<GroupDTO> result = page.map(g -> new GroupDTO(
+                g.getId(),
+                g.getGroupName(),
+                studentIdsByGroup.getOrDefault(g.getId(), List.of())
+        ));
+        return result;
+    }
+
+    @Override
     @Transactional
     public GroupDTO update(Long id, GroupUpdateDTO updateDTO) {
         Group group = groupRepository
@@ -106,7 +130,9 @@ public class GroupServiceImpl implements GroupService {
             // проверяем что никто из студентов удаляемых из группы не останется без группы
             Set<Long> removedIds = new HashSet<>(currentIds);
             removedIds.removeAll(desiredIds);
-            if (!removedIds.isEmpty() && !studentRepository.findStudentIdCollectionWithSingleGroup(removedIds).isEmpty()) {
+            if (!removedIds.isEmpty() && !studentRepository
+                    .findStudentIdCollectionWithSingleGroup(removedIds)
+                    .isEmpty()) {
                 throw new StudentNotInGroupException("Cannot update group id=%d: some students would be left without group".formatted(id));
             }
 
