@@ -10,6 +10,8 @@ import org.sg01.example.lms.helper.ExceptionHelperService;
 import org.sg01.example.lms.mapper.CourseMapper;
 import org.sg01.example.lms.repository.CourseRepository;
 import org.sg01.example.lms.repository.TeacherRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +59,14 @@ public class CourseServiceImpl implements CourseService {
                 .stream()
                 .map(courseMapper::toDTO)
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<CourseDTO> getAll(Pageable pageable) {
+        return courseRepository
+                .findAll(pageable)
+                .map(courseMapper::toDTO);
     }
 
     @Override
