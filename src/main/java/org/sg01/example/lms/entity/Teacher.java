@@ -16,6 +16,7 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
     @Column(name = "version", nullable = false)
     private Long version;
 
@@ -24,10 +25,5 @@ public class Teacher {
 
     @Column(name = "lastname", nullable = false)
     private String lastname;
-
-    @PrePersist
-    protected void onCreate() {
-        version = 0L;
-    }
 
 }

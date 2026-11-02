@@ -1,25 +1,20 @@
 package org.sg01.example.lms.service;
 
-import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.sg01.example.lms.dto.StudentCreateDTO;
 import org.sg01.example.lms.dto.StudentDTO;
-import org.sg01.example.lms.entity.Student;
-import org.sg01.example.lms.mapper.StudentMapper;
-import org.sg01.example.lms.repository.StudentRepository;
-import org.springframework.stereotype.Service;
+import org.sg01.example.lms.dto.StudentUpdateDTO;
 
-@Service
-@RequiredArgsConstructor
-public class StudentService {
+import java.util.List;
 
-    final StudentRepository studentRepository;
-    final StudentMapper studentMapper;
+public interface StudentService {
 
-    public StudentDTO getById(Long id) {
-        Student student = studentRepository
-                .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Student id=%s not found", id)));
-        return studentMapper.toDto(student);
-    }
+    StudentDTO create(StudentCreateDTO requestDTO);
 
+    StudentDTO getById(Long id);
+
+    List<StudentDTO> getAll();
+
+    StudentDTO update(Long id, StudentUpdateDTO requestDTO);
+
+    void delete(Long id);
 }
