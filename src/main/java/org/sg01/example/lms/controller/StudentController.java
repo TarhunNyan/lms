@@ -6,11 +6,11 @@ import org.sg01.example.lms.dto.StudentCreateDTO;
 import org.sg01.example.lms.dto.StudentDTO;
 import org.sg01.example.lms.dto.StudentUpdateDTO;
 import org.sg01.example.lms.service.StudentService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
@@ -30,8 +30,8 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<StudentDTO>> readAll() {
-        return ResponseEntity.ok(studentService.getAll());
+    public Page<StudentDTO> readAll(Pageable pageable) {
+        return studentService.getAll(pageable);
     }
 
     @PutMapping(path = "/{id}")

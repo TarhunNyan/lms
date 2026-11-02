@@ -10,6 +10,8 @@ import org.sg01.example.lms.helper.ExceptionHelperService;
 import org.sg01.example.lms.mapper.StudentMapper;
 import org.sg01.example.lms.repository.GroupRepository;
 import org.sg01.example.lms.repository.StudentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +59,13 @@ public class StudentServiceImpl implements StudentService {
                 .stream()
                 .map(studentMapper::toDTO)
                 .toList();
+    }
+
+    @Override
+    public Page<StudentDTO> getAll(Pageable pageable) {
+        return studentRepository
+                .findAll(pageable)
+                .map(studentMapper::toDTO);
     }
 
     @Override
