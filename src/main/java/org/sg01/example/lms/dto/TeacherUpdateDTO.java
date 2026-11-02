@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TeacherUpdateDTO {
 
-    private String firstname;
+    private final String firstname;
 
-    private String lastname;
+    private final String lastname;
 
 }

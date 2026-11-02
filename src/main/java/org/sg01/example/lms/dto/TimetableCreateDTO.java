@@ -14,16 +14,16 @@ public class TimetableCreateDTO {
 
     @NonNull
     @Positive
-    private Long groupId;
+    private final Long groupId;
 
     @NonNull
     @Positive
-    private Long courseId;
+    private final Long courseId;
 
     @NonNull
-    private LocalDate startDate;
+    private final LocalDate startDate;
 
     @NonNull
-    private LocalDate finishDate;
+    private final LocalDate finishDate;
 
 }

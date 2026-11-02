@@ -11,13 +11,13 @@ import java.time.LocalDate;
 public class TimetableUpdateDTO {
 
     @Positive
-    private Long groupId;
+    private final Long groupId;
 
     @Positive
-    private Long courseId;
+    private final Long courseId;
 
-    private LocalDate startDate;
+    private final LocalDate startDate;
 
-    private LocalDate finishDate;
+    private final LocalDate finishDate;
 
 }

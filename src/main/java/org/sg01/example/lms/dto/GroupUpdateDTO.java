@@ -9,8 +9,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class GroupUpdateDTO {
 
-    private String groupName;
+    private final String groupName;
 
-    private Set<Long> studentIdCollection;
+    private final Set<Long> studentIdCollection;
 
 }

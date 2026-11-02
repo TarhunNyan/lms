@@ -9,8 +9,8 @@ import lombok.ToString;
 @ToString
 public class GroupToStudentIdDTO {
 
-    private Long groupId;
+    private final Long groupId;
 
-    private Long studentId;
+    private final Long studentId;
 
 }

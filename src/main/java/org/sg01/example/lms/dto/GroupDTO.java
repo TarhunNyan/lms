@@ -13,10 +13,10 @@ public class GroupDTO {
 
     @NotNull
     @Positive
-    private Long groupId;
+    private final Long groupId;
 
-    private String groupName;
+    private final String groupName;
 
-    private List<Long> studentIdCollection;
+    private final List<Long> studentIdCollection;
 
 }

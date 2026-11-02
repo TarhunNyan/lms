@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class StudentGroupCreateDTO {
 
-    private Long studentId;
+    private final Long studentId;
 
-    private Long groupId;
+    private final Long groupId;
 
 }

@@ -9,18 +9,18 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class TimetableDTO {
 
-    private Long id;
+    private final Long id;
 
-    private Long version;
+    private final Long version;
 
-    private Long groupId;
+    private final Long groupId;
 
-    private Long courseId;
+    private final Long courseId;
 
-    private Long teacherId;
+    private final Long teacherId;
 
-    private LocalDate startDate;
+    private final LocalDate startDate;
 
-    private LocalDate finishDate;
+    private final LocalDate finishDate;
 
 }

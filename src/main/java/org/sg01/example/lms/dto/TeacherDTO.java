@@ -7,10 +7,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class TeacherDTO {
 
-    private Long id;
+    private final Long id;
 
-    private String firstname;
+    private final String firstname;
 
-    private String lastname;
+    private final String lastname;
 
 }

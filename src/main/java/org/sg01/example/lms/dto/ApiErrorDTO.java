@@ -9,12 +9,12 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 public class ApiErrorDTO {
-    private LocalDateTime timestamp;
-    private int status;
-    private String error;
-    private String message;
-    private String path;
-    private Map<String, String> validationErrors;
+    private final LocalDateTime timestamp;
+    private final int status;
+    private final String error;
+    private final String message;
+    private final String path;
+    private final Map<String, String> validationErrors;
     // только в dev
-    private String stackTrace;
+    private final String stackTrace;
 }

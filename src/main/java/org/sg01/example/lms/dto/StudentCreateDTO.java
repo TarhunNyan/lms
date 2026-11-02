@@ -11,14 +11,14 @@ import lombok.RequiredArgsConstructor;
 public class StudentCreateDTO {
 
     @NotBlank
-    private String firstname;
+    private final String firstname;
 
     @NotBlank
-    private String lastname;
+    private final String lastname;
 
     // мне не очень нравиться, но этого требует инвариант, что студент должен входить обязательно в 1 группу
     @NotNull
     @Positive
-    private Long groupId;
+    private final Long groupId;
 
 }
