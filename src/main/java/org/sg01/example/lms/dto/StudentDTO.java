@@ -9,12 +9,12 @@ import java.util.List;
 @AllArgsConstructor
 public class StudentDTO {
 
-    private Long id;
+    private final Long id;
 
-    private String firstname;
+    private final String firstname;
 
-    private String lastname;
+    private final String lastname;
 
-    private List<Long> groupIdCollection;
+    private final List<Long> groupIdCollection;
 
 }

@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.sg01.example.lms.dto.*;
 import org.sg01.example.lms.service.TimetableService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +30,8 @@ public class TimetableController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TimetableDTO>> readAll() {
-        return ResponseEntity.ok(timetableService.getAll());
+    public Page<TimetableDTO> readAll(Pageable pageable) {
+        return timetableService.getAll(pageable);
     }
 
     @PutMapping(path = "/{id}")

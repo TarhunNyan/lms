@@ -9,10 +9,10 @@ import lombok.RequiredArgsConstructor;
 public class CourseCreateDTO {
 
     @NotBlank
-    private String title;
+    private final String title;
 
-    private String description;
+    private final String description;
 
-    private Long teacherId;
+    private final Long teacherId;
 
 }

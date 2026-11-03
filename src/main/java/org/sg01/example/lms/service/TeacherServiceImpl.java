@@ -6,10 +6,10 @@ import org.sg01.example.lms.entity.Teacher;
 import org.sg01.example.lms.helper.ExceptionHelperService;
 import org.sg01.example.lms.mapper.TeacherMapper;
 import org.sg01.example.lms.repository.TeacherRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -41,12 +41,10 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<TeacherDTO> getAll() {
+    public Page<TeacherDTO> getAll(Pageable pageable) {
         return teacherRepository
-                .findAll()
-                .stream()
-                .map(teacherMapper::toDTO)
-                .toList();
+                .findAll(pageable)
+                .map(teacherMapper::toDTO);
     }
 
     @Override

@@ -9,10 +9,10 @@ import lombok.ToString;
 @ToString
 public class GroupWithStudentIdDTO {
 
-    private Long groupId;
+    private final Long groupId;
 
-    private String groupName;
+    private final String groupName;
 
-    private Long studentId;
+    private final Long studentId;
 
 }

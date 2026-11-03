@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class StudentGroupDeleteDTO {
 
-    private Long studentId;
+    private final Long studentId;
 
-    private Long groupId;
+    private final Long groupId;
 
 }

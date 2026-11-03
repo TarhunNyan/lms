@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class TeacherCourseDeleteDTO {
 
-    private Long courseId;
+    private final Long courseId;
 
 }

@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 public class TeacherCreateDTO {
 
     @NotBlank
-    private String firstname;
+    private final String firstname;
 
     @NotBlank
-    private String lastname;
+    private final String lastname;
 
 }

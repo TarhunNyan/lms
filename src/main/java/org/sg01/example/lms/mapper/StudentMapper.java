@@ -13,7 +13,6 @@ public interface StudentMapper {
     StudentDTO toDTO(Student entity);
 
     default Long map(Group group) {
-        System.out.println("HERHRHRHRH!");
         return group.getId();
     }
 

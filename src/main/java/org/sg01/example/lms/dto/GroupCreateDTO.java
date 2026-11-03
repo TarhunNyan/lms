@@ -11,8 +11,8 @@ import java.util.List;
 public class GroupCreateDTO {
 
     @NotBlank
-    private String groupName;
+    private final String groupName;
 
-    private List<Long> studentIdCollection;
+    private final List<Long> studentIdCollection;
 
 }

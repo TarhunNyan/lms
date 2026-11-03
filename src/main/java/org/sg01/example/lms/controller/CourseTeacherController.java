@@ -2,7 +2,6 @@ package org.sg01.example.lms.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.sg01.example.lms.dto.CourseDTO;
-import org.sg01.example.lms.dto.StudentDTO;
 import org.sg01.example.lms.dto.TeacherCourseCreateDTO;
 import org.sg01.example.lms.dto.TeacherCourseDeleteDTO;
 import org.sg01.example.lms.service.CourseTeacherService;
