@@ -67,12 +67,12 @@ public class GroupServiceImpl implements GroupService {
     @Transactional(readOnly = true)
     public Page<GroupDTO> getAll(Pageable pageable) {
         Page<Group> page = groupRepository.findAll(pageable);
-        Set<Long> studentIdCollection = page
+        Set<Long> groupIdCollection = page
                 .stream()
                 .map(Group::getId)
                 .collect(Collectors.toSet());
         Map<Long, List<Long>> studentIdsByGroup = groupRepository
-                .findStudentIdsByGroupIds(studentIdCollection)
+                .findStudentIdsByGroupIds(groupIdCollection)
                 .stream()
                 .filter(r -> r.getStudentId() != null)
                 .collect(Collectors.groupingBy(
