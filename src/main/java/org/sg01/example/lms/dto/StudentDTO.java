@@ -1,12 +1,14 @@
 package org.sg01.example.lms.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@EqualsAndHashCode
 public class StudentDTO {
 
     private final Long id;

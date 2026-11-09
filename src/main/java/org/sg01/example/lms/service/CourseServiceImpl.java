@@ -36,7 +36,7 @@ public class CourseServiceImpl implements CourseService {
                 .findById(createDTO.getTeacherId())
                 .orElseThrow(() -> exception.createExceptionNotFoundTeacherById(createDTO.getTeacherId()));
         course.setTeacher(teacher);
-        courseRepository.save(course);
+        course = courseRepository.save(course);
 
         return courseMapper.toDTO(course);
     }
@@ -71,7 +71,7 @@ public class CourseServiceImpl implements CourseService {
         if (updateDTO.getDescription() != null) {
             course.setDescription(updateDTO.getDescription());
         }
-        courseRepository.save(course);
+        course = courseRepository.save(course);
 
         return courseMapper.toDTO(course);
     }

@@ -25,7 +25,7 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher teacher = new Teacher();
         teacher.setFirstname(createDTO.getFirstname());
         teacher.setLastname(createDTO.getLastname());
-        teacherRepository.save(teacher);
+        teacher = teacherRepository.save(teacher);
 
         return teacherMapper.toDTO(teacher);
     }
@@ -61,7 +61,7 @@ public class TeacherServiceImpl implements TeacherService {
             teacher.setLastname(updateDTO.getLastname());
         }
 
-        teacherRepository.save(teacher);
+        teacher = teacherRepository.save(teacher);
         return teacherMapper.toDTO(teacher);
     }
 

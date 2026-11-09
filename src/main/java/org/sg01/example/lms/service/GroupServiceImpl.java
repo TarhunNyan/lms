@@ -49,7 +49,7 @@ public class GroupServiceImpl implements GroupService {
                     .collect(Collectors.toSet());
             group.setStudentCollection(studentCollection);
         }
-        groupRepository.save(group);
+        group = groupRepository.save(group);
 
         return groupMapper.toDTO(group);
     }

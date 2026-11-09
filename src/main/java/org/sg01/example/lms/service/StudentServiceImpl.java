@@ -35,7 +35,7 @@ public class StudentServiceImpl implements StudentService {
         student.addGroup(group);
         student.setFirstname(createDTO.getFirstname());
         student.setLastname(createDTO.getLastname());
-        studentRepository.save(student);
+        student = studentRepository.save(student);
 
         return studentMapper.toDTO(student);
     }
@@ -71,7 +71,7 @@ public class StudentServiceImpl implements StudentService {
             student.setLastname(updateDTO.getLastname());
         }
 
-        studentRepository.save(student);
+        student = studentRepository.save(student);
         return studentMapper.toDTO(student);
     }
 

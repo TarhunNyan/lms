@@ -36,7 +36,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
                 .findById(teacherId)
                 .orElseThrow(() -> exception.createExceptionNotFoundCourseById(teacherId));
         course.setTeacher(teacher);
-        courseRepository.save(course);
+        course = courseRepository.save(course);
 
         return courseMapper.toDTO(course);
     }
