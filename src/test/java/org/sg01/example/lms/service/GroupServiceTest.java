@@ -8,9 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.sg01.example.lms.dto.GroupCreateDTO;
-import org.sg01.example.lms.dto.GroupDTO;
-import org.sg01.example.lms.dto.GroupUpdateDTO;
+import org.sg01.example.lms.dto.*;
 import org.sg01.example.lms.entity.Group;
 import org.sg01.example.lms.entity.Student;
 import org.sg01.example.lms.exception.GroupHasStudentsException;
@@ -20,12 +18,15 @@ import org.sg01.example.lms.helper.ExceptionHelperService;
 import org.sg01.example.lms.mapper.GroupMapper;
 import org.sg01.example.lms.repository.GroupRepository;
 import org.sg01.example.lms.repository.StudentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -91,6 +92,34 @@ class GroupServiceTest {
 
         // THEN
         verify(groupMapper, never()).toDTO(any());
+    }
+
+
+    @Test
+    void getAll_shouldMapPage() {
+        // GIVEN
+        long groupId = 20L;
+        long studentId = 1L;
+        String groupName = "G1";
+
+        Group group = new Group();
+        group.setId(groupId);
+        group.setGroupName(groupName);
+        GroupDTO dto = new GroupDTO(groupId, groupName, List.of(studentId));
+        Page<Group> page = new PageImpl<>(List.of(group));
+        Pageable pageable = PageRequest.of(0, 10);
+
+        GroupToStudentIdDTO groupToStudentIdDTO = new GroupToStudentIdDTO(groupId, studentId);
+
+        when(groupRepository.findAll(pageable)).thenReturn(page);
+        when(groupRepository.findStudentIdsByGroupIds(Set.of(groupId))).thenReturn(Set.of(groupToStudentIdDTO));
+
+        // WHEN
+        Page<GroupDTO> result = groupService.getAll(pageable);
+
+        // THEN
+        assertTrue(result.getContent().getFirst().equals(dto));
+        verify(groupRepository).findAll(pageable);
     }
 
     @Test
