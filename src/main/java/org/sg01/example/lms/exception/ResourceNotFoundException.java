@@ -6,4 +6,8 @@ public class ResourceNotFoundException extends LmsException {
         super(message);
     }
 
+    public static ResourceNotFoundException of() {
+        return new ResourceNotFoundException("not found");
+    }
+
 }

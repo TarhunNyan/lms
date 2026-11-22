@@ -41,7 +41,7 @@ public class StudentGroupServiceImpl implements StudentGroupService {
             throw new StudentAlreadyInGroupException("Student %d is already in group %d".formatted(studentId, groupId));
         }
 
-        studentRepository.save(student);
+        student = studentRepository.save(student);
         return studentMapper.toDTO(student);
     }
 

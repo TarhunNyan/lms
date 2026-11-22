@@ -16,7 +16,7 @@ public class StudentCreateDTO {
     @NotBlank
     private final String lastname;
 
-    // мне не очень нравиться, но этого требует инвариант, что студент должен входить обязательно в 1 группу
+    // мне не очень нравится, но этого требует инвариант, что студент должен входить обязательно в 1 группу
     @NotNull
     @Positive
     private final Long groupId;

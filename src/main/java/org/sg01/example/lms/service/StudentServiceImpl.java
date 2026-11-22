@@ -15,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
@@ -37,7 +35,7 @@ public class StudentServiceImpl implements StudentService {
         student.addGroup(group);
         student.setFirstname(createDTO.getFirstname());
         student.setLastname(createDTO.getLastname());
-        studentRepository.save(student);
+        student = studentRepository.save(student);
 
         return studentMapper.toDTO(student);
     }
@@ -73,7 +71,7 @@ public class StudentServiceImpl implements StudentService {
             student.setLastname(updateDTO.getLastname());
         }
 
-        studentRepository.save(student);
+        student = studentRepository.save(student);
         return studentMapper.toDTO(student);
     }
 

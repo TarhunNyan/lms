@@ -49,7 +49,7 @@ public class TimetableServiceImpl implements TimetableService {
         timetable.setCourse(course);
         timetable.setFinishDate(createDTO.getFinishDate());
         timetable.setStartDate(createDTO.getStartDate());
-        timetableRepository.save(timetable);
+        timetable = timetableRepository.save(timetable);
 
         return timetableMapper.toDTO(timetable);
     }
@@ -100,7 +100,7 @@ public class TimetableServiceImpl implements TimetableService {
             timetable.setGroup(groupById);
         }
 
-        timetableRepository.save(timetable);
+        timetable = timetableRepository.save(timetable);
         return timetableMapper.toDTO(timetable);
     }
 
